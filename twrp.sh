@@ -17,6 +17,7 @@
 
 # Main Dir
 CR_DIR=$(pwd)
+CR_REPO=.repo/local_manifests
 # Thread count
 CR_JOBS=9
 # Current Date
@@ -26,27 +27,32 @@ export USE_CCACHE=1
 export LANG=C
 ##########################################
 # Device specific Variables [SM-G930]
-CR_DEVICE=herolte
+CR_DEVICE_HERO=herolte
+CR_SOURCE_HERO="ananjaser1211/android_device_samsung_hero"
+CR_MANIFEST_HERO=herolte.xml
 # Device specific Variables [SM-G935]
-CR_DEVICE=hero2lte
+CR_DEVICE_HERO2=hero2lte
+CR_SOURCE_HERO2="ananjaser1211/android_device_samsung_hero"
+CR_MANIFEST_HERO2=hero2lte.xml
 ##########################################
 
-# Script functions
+BUILD_SYNC()
+{
+    echo "----------------------------------------------"
+    echo " "
+    echo "Checking for Dirs"
+    echo '<?xml version="1.0" encoding="UTF-8"?>' >> $CR_REPO/$CR_MANIFEST
+    echo '<manifest>' >> $CR_REPO/$CR_MANIFEST
+    echo "  <project name="\"$CR_SOURCE\"" path="\"device/samsung/"$CR_DEVICE\"" remote="\"github\"" revision="\"$CR_DEVICE\""""" />" >> $CR_REPO/$CR_MANIFEST
+    echo '</manifest>' >> $CR_REPO/$CR_MANIFEST
 
-read -p "Clean source (y/n) > " yn
-if [ "$yn" = "Y" -o "$yn" = "y" ]; then
-     echo "Clean Build"    
-     make clean && make mrproper        
-else
-     echo "Dirty Build"        
-fi
+}
 
 BUILD_RECOVERY()
 {
 	echo "----------------------------------------------"
 	echo " "
 	echo "Building Recovery for $CR_DEVICE"
-	repo sync --force-sync
     lunch omni_$TARGET-userdebug
 	make recoveryimage -j$CR_JOBS
 	echo " "
@@ -70,8 +76,12 @@ do
         "herolte")
             clear
             echo "Starting $CR_DEVICE kernel build..."
-            BUILD_RECOVERY
-            BUILD_EXPORT
+            CR_DEVICE=$CR_DEVICE_HERO
+            CR_SOURCE=$CR_SOURCE_HERO
+            CR_MANIFEST=$CR_MANIFEST_HERO
+            BUILD_SYNC
+            #BUILD_RECOVERY
+            #BUILD_EXPORT
             echo " "
             echo "----------------------------------------------"
             echo "$CR_DEVICE Recovery build finished."
@@ -84,8 +94,12 @@ do
         "hero2lte")
             clear
             echo "Starting $CR_DEVICE kernel build..."
-            BUILD_RECOVERY
-            BUILD_EXPORT
+            CR_DEVICE=$CR_DEVICE_HERO2
+            CR_SOURCE=$CR_SOURCE_HERO2
+            CR_MANIFEST=$CR_MANIFEST_HERO2
+            BUILD_SYNC
+            #BUILD_RECOVERY
+            #BUILD_EXPORT
             echo " "
             echo "----------------------------------------------"
             echo "$CR_DEVICE Recovery build finished."
