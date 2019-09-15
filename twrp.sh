@@ -19,7 +19,7 @@
 CR_DIR=$(pwd)
 CR_REPO=.repo/local_manifests
 # Thread count
-CR_JOBS=9
+CR_JOBS=$(nproc --all)
 # Current Date
 CR_DATE=$(date +%Y%m%d)
 # Init build
@@ -40,29 +40,49 @@ BUILD_SYNC()
 {
     echo "----------------------------------------------"
     echo " "
-    echo "Checking for Dirs"
+    echo "Checking for Dirs"    
+    if [ ! -e $CR_DIR/$CR_REPO ]; then
+        echo "Local manifests folder not found, Create it"
+        mkdir .repo/local_manifests
+    fi
+    if [ -e $CR_DIR/$CR_REPO/$CR_MANIFEST ]; then
+        echo "Removing old Trees"   
+        rm -rf $CR_DIR/$CR_REPO/$CR_MANIFEST
+        rm -rf $CR_DIR/device/samsung/$CR_DEVICE 
+    fi
+    echo "Generate Device manifest."
     echo '<?xml version="1.0" encoding="UTF-8"?>' >> $CR_REPO/$CR_MANIFEST
     echo '<manifest>' >> $CR_REPO/$CR_MANIFEST
     echo "  <project name="\"$CR_SOURCE\"" path="\"device/samsung/"$CR_DEVICE\"" remote="\"github\"" revision="\"$CR_DEVICE\""""" />" >> $CR_REPO/$CR_MANIFEST
     echo '</manifest>' >> $CR_REPO/$CR_MANIFEST
-
-}
+    echo "$CR_DEVICE Manifest generated, Sync...."
+    # TWRP Repo Sync
+    repo sync -c -j$CR_JOBS --force-sync --no-clone-bundle --no-tags
+    if [ ! -e $CR_DIR/device/samsung/$CR_DEVICE ]; then
+    exit 0;
+    echo "$CR_DEVICE Sync failed! Please check repos."
+    else
+    if [ -e $CR_DIR/device/samsung/$CR_DEVICE ]; then
+    echo "$CR_DEVICE Sync success! Building..." 
+    fi
+    fi
+}   
 
 BUILD_RECOVERY()
 {
-	echo "----------------------------------------------"
-	echo " "
-	echo "Building Recovery for $CR_DEVICE"
-    lunch omni_$TARGET-userdebug
-	make recoveryimage -j$CR_JOBS
-	echo " "
-	echo "----------------------------------------------"
+    echo "----------------------------------------------"
+    echo " "
+    echo "Building Recovery for $CR_DEVICE"
+    lunch omni_$CR_DEVICE-userdebug
+    make recoveryimage -j$CR_JOBS
+    echo " "
+    echo "----------------------------------------------"
 }
 BUILD_EXPORT()
 {
-	echo "----------------------------------------------"
-	echo " "
-	echo "Copying Recovery.img for $CR_DEVICE"
+    echo "----------------------------------------------"
+    echo " "
+    echo "Copying Recovery.img for $CR_DEVICE"
     echo " "
     echo "----------------------------------------------"    
 }
