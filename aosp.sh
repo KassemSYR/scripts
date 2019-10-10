@@ -34,6 +34,14 @@ CR_DEVICE_TRE=treltexx
 CR_MANIFEST_TRE=treltexx.xml
 ##########################################
 
+read -p "Clean source (y/n) > " yn
+if [ "$yn" = "Y" -o "$yn" = "y" ]; then
+     echo "Clean Build"
+     make clean
+else
+     echo "Dirty Build"
+fi
+
 BUILD_SYNC()
 {
     echo "----------------------------------------------"
@@ -71,16 +79,6 @@ BUILD_SYNC()
     . build/envsetup.sh
     fi
     fi
-}
-
-BUILD_CLEAN()
-{
-    echo "----------------------------------------------"
-    echo " "
-    echo " Cleaning build folder "
-    make clean
-    echo " "
-    echo "----------------------------------------------"
 }
 
 BUILD_COMPILE()
@@ -130,7 +128,6 @@ do
             CR_SUB_DEVICE=treltexx
             OUT=$OUT_DIR/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
             BUILD_SYNC
-            BUILD_CLEAN
             BUILD_COMPILE
             echo " "
             echo "----------------------------------------------"
