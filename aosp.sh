@@ -126,8 +126,8 @@ BUILD_UPLOAD()
 }
 
 # Main Menu
-PS3='Please select your option (1-5): '
-menuvar=("treltexx" "trelteskt" "tre3calteskt" "tbelteskt" "Exit")
+PS3='Please select your option (1-6): '
+menuvar=("treltexx" "trelteskt" "tre3calteskt" "tbelteskt" "tre" "Exit")
 select menuvar in "${menuvar[@]}"
 do
     case $menuvar in
@@ -199,6 +199,51 @@ do
             echo "$CR_SUB_DEVICE build finished."
             echo "$CR_SUB_DEVICE Ready at $OUT"
             echo "Press Any key to end the script"
+            echo "----------------------------------------------"
+            read -n1 -r key
+            break
+            ;;
+        "tre")
+            clear
+            echo "Starting Note4 builds..."
+            CR_DEVICE=$CR_DEVICE_TRE
+            CR_MANIFEST=$CR_MANIFEST_TRE
+            BUILD_SYNC
+            CR_SUB_DEVICE=treltexx
+            echo "Compiling $CR_SUB_DEVICE"
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
+            echo "----------------------------------------------"
+            CR_SUB_DEVICE=trelteskt
+            echo "Compiling $CR_SUB_DEVICE"
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
+            echo "----------------------------------------------"
+            CR_SUB_DEVICE=tre3calteskt
+            echo "Compiling $CR_SUB_DEVICE"
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
+            echo "----------------------------------------------"
+            CR_SUB_DEVICE=tbelteskt
+            echo "Compiling $CR_SUB_DEVICE"
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
             echo "----------------------------------------------"
             read -n1 -r key
             break
