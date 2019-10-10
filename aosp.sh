@@ -91,10 +91,10 @@ BUILD_COMPILE()
     brunch $CR_SUB_DEVICE
     OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
     if [ -e $OUT ]; then
-    echo "$CR_DEVICE Build Success..."
+    echo "$CR_SUB_DEVICE Build Success..."
     else
     if [ ! -e $OUT ]; then
-    echo "$CR_DEVICE Build Failed..."
+    echo "$CR_SUB_DEVICE Build Failed..."
     exit 0;
     fi
     fi
@@ -126,14 +126,14 @@ BUILD_UPLOAD()
 }
 
 # Main Menu
-PS3='Please select your option (1-2): '
-menuvar=("treltexx" "Exit")
+PS3='Please select your option (1-5): '
+menuvar=("treltexx" "trelteskt" "tre3calteskt" "tbelteskt" "Exit")
 select menuvar in "${menuvar[@]}"
 do
     case $menuvar in
         "treltexx")
             clear
-            echo "Starting $CR_DEVICE kernel build..."
+            echo "Starting trektexx build..."
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=treltexx
@@ -142,8 +142,62 @@ do
             BUILD_UPLOAD
             echo " "
             echo "----------------------------------------------"
-            echo "$CR_DEVICE build finished."
-            echo "$CR_DEVICE Ready at $OUT"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
+            echo "Press Any key to end the script"
+            echo "----------------------------------------------"
+            read -n1 -r key
+            break
+            ;;
+        "trelteskt")
+            clear
+            echo "Starting trelteskt build..."
+            CR_DEVICE=$CR_DEVICE_TRE
+            CR_MANIFEST=$CR_MANIFEST_TRE
+            CR_SUB_DEVICE=trelteskt
+            BUILD_SYNC
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
+            echo "Press Any key to end the script"
+            echo "----------------------------------------------"
+            read -n1 -r key
+            break
+            ;;
+        "tre3calteskt")
+            clear
+            echo "Starting tre3calteskt build..."
+            CR_DEVICE=$CR_DEVICE_TRE
+            CR_MANIFEST=$CR_MANIFEST_TRE
+            CR_SUB_DEVICE=tre3calteskt
+            BUILD_SYNC
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
+            echo "Press Any key to end the script"
+            echo "----------------------------------------------"
+            read -n1 -r key
+            break
+            ;;
+        "tbelteskt")
+            clear
+            echo "Starting tbelteskt build..."
+            CR_DEVICE=$CR_DEVICE_TRE
+            CR_MANIFEST=$CR_MANIFEST_TRE
+            CR_SUB_DEVICE=tbelteskt
+            BUILD_SYNC
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
             echo "Press Any key to end the script"
             echo "----------------------------------------------"
             read -n1 -r key
