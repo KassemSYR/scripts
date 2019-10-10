@@ -74,6 +74,8 @@ BUILD_CLEAN()
 {
     echo "----------------------------------------------"
     echo " "
+    echo " Cleaning build folder "
+    make clean
     echo " "
     echo "----------------------------------------------"
 }
@@ -113,6 +115,7 @@ do
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=treltexx
             BUILD_SYNC
+            BUILD_CLEAN
             echo " "
             echo "----------------------------------------------"
             echo "$CR_DEVICE build finished."
