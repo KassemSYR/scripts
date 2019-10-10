@@ -15,11 +15,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Main Dir
+# Main
 CR_DIR=$(pwd)
 CR_REPO=.repo/local_manifests
 CR_ORG=https://github.com/Exynos5433
 CR_BRANCH=lineage-16.0
+CR_ROM=lineage-16.0
+CR_BUILD=userdebug
 # Thread count
 CR_JOBS=$(nproc --all)
 # Current Date
@@ -66,6 +68,7 @@ BUILD_SYNC()
     else
     if [ -e $CR_DIR/device/samsung/$CR_DEVICE ]; then
     echo "$CR_DEVICE Sync success! Building..."
+    . build/envsetup.sh
     fi
     fi
 }
@@ -84,6 +87,17 @@ BUILD_COMPILE()
 {
     echo "----------------------------------------------"
     echo " "
+    echo " Begin compiling $CR_SUB_DEVICE "
+    . build/envsetup.sh
+    brunch $CR_SUB_DEVICE
+    if [ -e $OUT ]; then
+    echo "$CR_DEVICE Build Success..."
+    else
+    if [ ! -e $OUT ]; then
+    echo "$CR_DEVICE Build Failed..."
+    exit 0;
+    fi
+    fi
     echo " "
     echo "----------------------------------------------"
 }
@@ -114,12 +128,14 @@ do
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=treltexx
+            OUT=$OUT_DIR/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
             BUILD_SYNC
             BUILD_CLEAN
+            BUILD_COMPILE
             echo " "
             echo "----------------------------------------------"
             echo "$CR_DEVICE build finished."
-            echo "$CR_DEVICE Ready at $CR_OUT"
+            echo "$CR_DEVICE Ready at $OUT"
             echo "Press Any key to end the script"
             echo "----------------------------------------------"
             read -n1 -r key
