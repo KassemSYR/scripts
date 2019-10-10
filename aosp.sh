@@ -89,6 +89,7 @@ BUILD_COMPILE()
     echo " Begin compiling $CR_SUB_DEVICE "
     . build/envsetup.sh
     brunch $CR_SUB_DEVICE
+    OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
     if [ -e $OUT ]; then
     echo "$CR_DEVICE Build Success..."
     else
@@ -136,7 +137,6 @@ do
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=treltexx
-            OUT=$OUT_DIR/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
             BUILD_SYNC
             BUILD_COMPILE
             BUILD_UPLOAD
