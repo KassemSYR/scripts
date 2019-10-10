@@ -22,6 +22,7 @@ CR_ORG=https://github.com/Exynos5433
 CR_BRANCH=lineage-16.0
 CR_ROM=lineage-16.0
 CR_BUILD=userdebug
+CR_DRIVE= # Export before build.
 # Thread count
 CR_JOBS=$(nproc --all)
 # Current Date
@@ -110,6 +111,15 @@ BUILD_UPLOAD()
 {
     echo "----------------------------------------------"
     echo " "
+    if [ -e $OUT ]; then
+      echo " Uploading build to google drive "
+      gdrive upload -p $CR_DRIVE $OUT
+    else
+    if [ ! -e $OUT ]; then
+    echo "$CR_DEVICE Build not found"
+    exit 0;
+    fi
+    fi
     echo " "
     echo "----------------------------------------------"
 }
@@ -129,6 +139,7 @@ do
             OUT=$OUT_DIR/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
             BUILD_SYNC
             BUILD_COMPILE
+            BUILD_UPLOAD
             echo " "
             echo "----------------------------------------------"
             echo "$CR_DEVICE build finished."
