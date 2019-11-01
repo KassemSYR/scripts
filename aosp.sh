@@ -41,6 +41,15 @@ else
      echo "Dirty Build"
 fi
 
+read -p "Sync source (y/n) > " yn
+if [ "$yn" = "Y" -o "$yn" = "y" ]; then
+     echo "Sync Enabled"
+     sync=1
+else
+     echo "Sync Disabled"
+     sync=0
+fi
+
 # ROM Support
 read -p "ROM? 
 1- lineage-16 
@@ -68,6 +77,8 @@ BUILD_SYNC()
 {
     echo "----------------------------------------------"
     echo " "
+    if [ "$sync" = "1" ]; then
+    echo " Preparing to Sync sources "
     echo "Checking for Dirs"
     if [ ! -e $CR_DIR/$CR_REPO ]; then
         echo "Local manifests folder not found, Create it"
@@ -100,6 +111,11 @@ BUILD_SYNC()
     echo "$CR_DEVICE Sync success! Building..."
     . build/envsetup.sh
     fi
+    fi
+    fi
+    if [ "$sync" = "0" ]; then
+    echo " Skipping sync! "
+    echo " "
     fi
 }
 
