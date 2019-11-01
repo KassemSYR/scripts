@@ -19,8 +19,6 @@
 CR_DIR=$(pwd)
 CR_REPO=.repo/local_manifests
 CR_ORG=https://github.com/Exynos5433
-CR_BRANCH=lineage-16.0
-CR_ROM=lineage-16.0
 CR_BUILD=userdebug
 CR_DRIVE= # Export before build.
 # Thread count
@@ -41,6 +39,13 @@ if [ "$yn" = "Y" -o "$yn" = "y" ]; then
      make clean
 else
      echo "Dirty Build"
+fi
+
+# ROM Support
+read -p "ROM? (1 (lineage-16) > " rom
+if [ "$rom" = "1" ]; then
+     echo "Building LineageOS-16.0"
+     CR_ROM_ID="1"
 fi
 
 BUILD_SYNC()
@@ -82,6 +87,18 @@ BUILD_SYNC()
     fi
 }
 
+BUILD_OUT()
+{
+    echo "----------------------------------------------"
+    echo " "
+    echo " Generate $CR_ROM out directory "
+    if [ "$CR_ROM_ID" = "1" ]; then
+        CR_ROM=lineage-16.0
+        CR_BRANCH=lineage-16.0
+        OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
+    fi
+}
+
 BUILD_COMPILE()
 {
     echo "----------------------------------------------"
@@ -89,7 +106,6 @@ BUILD_COMPILE()
     echo " Begin compiling $CR_SUB_DEVICE "
     . build/envsetup.sh
     brunch $CR_SUB_DEVICE
-    OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
     if [ -e $OUT ]; then
     echo "$CR_SUB_DEVICE Build Success..."
     else
@@ -137,6 +153,7 @@ do
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=treltexx
+            BUILD_OUT
             BUILD_SYNC
             BUILD_COMPILE
             BUILD_UPLOAD
@@ -155,6 +172,7 @@ do
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=trelteskt
+            BUILD_OUT
             BUILD_SYNC
             BUILD_COMPILE
             BUILD_UPLOAD
@@ -173,6 +191,7 @@ do
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=tre3calteskt
+            BUILD_OUT
             BUILD_SYNC
             BUILD_COMPILE
             BUILD_UPLOAD
@@ -191,6 +210,7 @@ do
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=tbelteskt
+            BUILD_OUT
             BUILD_SYNC
             BUILD_COMPILE
             BUILD_UPLOAD
@@ -211,6 +231,7 @@ do
             BUILD_SYNC
             CR_SUB_DEVICE=treltexx
             echo "Compiling $CR_SUB_DEVICE"
+            BUILD_OUT
             BUILD_COMPILE
             BUILD_UPLOAD
             echo " "
@@ -220,6 +241,7 @@ do
             echo "----------------------------------------------"
             CR_SUB_DEVICE=trelteskt
             echo "Compiling $CR_SUB_DEVICE"
+            BUILD_OUT
             BUILD_COMPILE
             BUILD_UPLOAD
             echo " "
@@ -229,6 +251,7 @@ do
             echo "----------------------------------------------"
             CR_SUB_DEVICE=tre3calteskt
             echo "Compiling $CR_SUB_DEVICE"
+            BUILD_OUT
             BUILD_COMPILE
             BUILD_UPLOAD
             echo " "
@@ -238,6 +261,7 @@ do
             echo "----------------------------------------------"
             CR_SUB_DEVICE=tbelteskt
             echo "Compiling $CR_SUB_DEVICE"
+            BUILD_OUT
             BUILD_COMPILE
             BUILD_UPLOAD
             echo " "
