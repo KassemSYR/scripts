@@ -42,12 +42,18 @@ else
 fi
 
 # ROM Support
-read -p "ROM? (1 (lineage-16) > " rom
+read -p "ROM? 
+1- lineage-16 
+2- ResurrectionRemix-Pie > " rom
 if [ "$rom" = "1" ]; then
      echo "Building LineageOS-16.0"
      CR_ROM_ID="1"
+else
+if [ "$rom" = "2" ]; then
+     echo "Building Resurrection Remix Pie"
+     CR_ROM_ID="2"
 fi
-
+fi
 BUILD_SYNC()
 {
     echo "----------------------------------------------"
@@ -96,6 +102,13 @@ BUILD_OUT()
         CR_ROM=lineage-16.0
         CR_BRANCH=lineage-16.0
         OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
+    else
+    if [ "$CR_ROM_ID" = "2" ]; then
+        CR_LUNCH=rr
+        CR_ROM=RR-P-v7.0.2
+        CR_BRANCH=lineage-16.0
+        OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-$CR_SUB_DEVICE-Unofficial.zip  
+    fi
     fi
     echo " Generate $CR_ROM out directory "
     echo " "
