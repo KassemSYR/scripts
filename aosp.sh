@@ -36,7 +36,7 @@ CR_MANIFEST_TRE=treltexx.xml
 read -p "Clean source (y/n) > " yn
 if [ "$yn" = "Y" -o "$yn" = "y" ]; then
      echo "Clean Build"
-     make clean
+     make clean && make clobber
 else
      echo "Dirty Build"
 fi
