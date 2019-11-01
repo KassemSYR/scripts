@@ -44,7 +44,8 @@ fi
 # ROM Support
 read -p "ROM? 
 1- lineage-16 
-2- ResurrectionRemix-Pie > " rom
+2- ResurrectionRemix-Pie
+3- AospExtended-Pie > " rom
 if [ "$rom" = "1" ]; then
      echo "Building LineageOS-16.0"
      CR_ROM_ID="1"
@@ -52,6 +53,10 @@ else
 if [ "$rom" = "2" ]; then
      echo "Building Resurrection Remix Pie"
      CR_ROM_ID="2"
+fi
+if [ "$rom" = "3" ]; then
+     echo "Building AospExtended Pie"
+     CR_ROM_ID="3"
 fi
 fi
 BUILD_SYNC()
@@ -108,6 +113,12 @@ BUILD_OUT()
         CR_ROM=RR-P-v7.0.2
         CR_BRANCH=lineage-16.0
         OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-$CR_SUB_DEVICE-Unofficial.zip  
+    fi
+    if [ "$CR_ROM_ID" = "3" ]; then
+        CR_LUNCH=aosp
+        CR_ROM=AospExtended-v6.7
+        CR_BRANCH=aex-pie
+        OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_SUB_DEVICE-'*'-$CR_DATE-UNOFFICIAL.zip  
     fi
     fi
     echo " Generate $CR_ROM out directory "
