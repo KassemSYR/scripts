@@ -45,7 +45,8 @@ fi
 read -p "ROM? 
 1- lineage-16 
 2- ResurrectionRemix-Pie
-3- AospExtended-Pie > " rom
+3- AospExtended-Pie
+4- Havoc-Pie > " rom
 if [ "$rom" = "1" ]; then
      echo "Building LineageOS-16.0"
      CR_ROM_ID="1"
@@ -57,6 +58,10 @@ fi
 if [ "$rom" = "3" ]; then
      echo "Building AospExtended Pie"
      CR_ROM_ID="3"
+fi
+if [ "$rom" = "4" ]; then
+     echo "Building Havoc Pie"
+     CR_ROM_ID="4"
 fi
 fi
 BUILD_SYNC()
@@ -119,6 +124,12 @@ BUILD_OUT()
         CR_ROM=AospExtended-v6.7
         CR_BRANCH=aex-pie
         OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_SUB_DEVICE-'*'-$CR_DATE-UNOFFICIAL.zip  
+    fi
+    if [ "$CR_ROM_ID" = "4" ]; then
+        CR_LUNCH=havoc
+        CR_ROM=Havoc-OS-v2.9
+        CR_BRANCH=havoc-pie
+        OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-$CR_SUB_DEVICE-Unofficial.zip  
     fi
     fi
     echo " Generate $CR_ROM out directory "
