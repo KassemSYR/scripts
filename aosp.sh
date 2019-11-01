@@ -104,7 +104,6 @@ BUILD_COMPILE()
     echo "----------------------------------------------"
     echo " "
     echo " Begin compiling $CR_SUB_DEVICE "
-    . build/envsetup.sh
     brunch $CR_SUB_DEVICE
     if [ -e $OUT ]; then
     echo "$CR_SUB_DEVICE Build Success..."
