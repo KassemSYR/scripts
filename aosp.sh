@@ -197,8 +197,8 @@ BUILD_UPLOAD()
 }
 
 # Main Menu
-PS3='Please select your option (1-6): '
-menuvar=("treltexx" "trelteskt" "tre3calteskt" "tbelteskt" "tre" "Exit")
+PS3='Please select your option (1-7): '
+menuvar=("treltexx" "trelteskt" "tre3calteskt" "tbelteskt" "trhpltexx" "tre" "Exit")
 select menuvar in "${menuvar[@]}"
 do
     case $menuvar in
@@ -208,6 +208,25 @@ do
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=treltexx
+            BUILD_OUT
+            BUILD_SYNC
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
+            echo "Press Any key to end the script"
+            echo "----------------------------------------------"
+            read -n1 -r key
+            break
+            ;;
+        "trhpltexx")
+            clear
+            echo "Starting trhpltexx build..."
+            CR_DEVICE=$CR_DEVICE_TRE
+            CR_MANIFEST=$CR_MANIFEST_TRE
+            CR_SUB_DEVICE=trhpltexx
             BUILD_OUT
             BUILD_SYNC
             BUILD_COMPILE
@@ -324,6 +343,16 @@ do
             echo "$CR_SUB_DEVICE build finished."
             echo "$CR_SUB_DEVICE Ready at $OUT"
             echo "----------------------------------------------"
+            CR_SUB_DEVICE=trhpltexx
+            echo "Compiling $CR_SUB_DEVICE"
+            BUILD_OUT
+            BUILD_COMPILE
+            BUILD_UPLOAD
+            echo " "
+            echo "----------------------------------------------"
+            echo "$CR_SUB_DEVICE build finished."
+            echo "$CR_SUB_DEVICE Ready at $OUT"
+            echo "----------------------------------------------"        
             read -n1 -r key
             break
             ;;
