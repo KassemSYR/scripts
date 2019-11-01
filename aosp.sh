@@ -93,6 +93,7 @@ BUILD_OUT()
     echo " "
     echo " Generate $CR_ROM out directory "
     if [ "$CR_ROM_ID" = "1" ]; then
+        CR_LUNCH=lineage
         CR_ROM=lineage-16.0
         CR_BRANCH=lineage-16.0
         OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
@@ -104,7 +105,8 @@ BUILD_COMPILE()
     echo "----------------------------------------------"
     echo " "
     echo " Begin compiling $CR_SUB_DEVICE "
-    brunch $CR_SUB_DEVICE
+    lunch $CR_LUNCH_$CR_SUB_DEVICE-$CR_BUILD
+    mka bacon -j$CR_JOBS
     if [ -e $OUT ]; then
     echo "$CR_SUB_DEVICE Build Success..."
     else
