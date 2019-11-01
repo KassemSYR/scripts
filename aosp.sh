@@ -91,13 +91,16 @@ BUILD_OUT()
 {
     echo "----------------------------------------------"
     echo " "
-    echo " Generate $CR_ROM out directory "
     if [ "$CR_ROM_ID" = "1" ]; then
         CR_LUNCH=lineage
         CR_ROM=lineage-16.0
         CR_BRANCH=lineage-16.0
         OUT=$CR_DIR/out/target/product/$CR_SUB_DEVICE/$CR_ROM-$CR_DATE-UNOFFICIAL-$CR_SUB_DEVICE.zip
     fi
+    echo " Generate $CR_ROM out directory "
+    echo " "
+    echo " "
+    echo " Target zip = $OUT"
 }
 
 BUILD_COMPILE()
@@ -105,7 +108,7 @@ BUILD_COMPILE()
     echo "----------------------------------------------"
     echo " "
     echo " Begin compiling $CR_SUB_DEVICE "
-    lunch $CR_LUNCH_$CR_SUB_DEVICE-$CR_BUILD
+    lunch $CR_LUNCH'_'$CR_SUB_DEVICE'-'$CR_BUILD
     mka bacon -j$CR_JOBS
     if [ -e $OUT ]; then
     echo "$CR_SUB_DEVICE Build Success..."
@@ -150,7 +153,7 @@ do
     case $menuvar in
         "treltexx")
             clear
-            echo "Starting trektexx build..."
+            echo "Starting treltexx build..."
             CR_DEVICE=$CR_DEVICE_TRE
             CR_MANIFEST=$CR_MANIFEST_TRE
             CR_SUB_DEVICE=treltexx
